@@ -17,5 +17,22 @@ namespace KaasService.Controllers
         {
             this.repository = repository;
         }
+
+        [HttpGet]
+        public IActionResult FindAll() => base.Ok(repository.FindAll());
+
+        [HttpGet("{id}")]
+        public IActionResult FindById(int id)
+        {
+            var kaas = repository.FindById(id);
+            if (kaas == null)
+            {
+                return base.NotFound();
+            }
+            return base.Ok(kaas);
+        }
+
+        [HttpGet("smaken")]
+        public ActionResult FindBySmaak(string smaak) => base.Ok(repository.FindBySmaak(smaak));
     }
 }

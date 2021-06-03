@@ -28,7 +28,7 @@ namespace KaasService
         {
             services.AddDbContext<KaaslandContext>(options => options.UseSqlServer(Configuration.GetConnectionString("kaasland")));
             services.AddScoped<IKaasRepository, KaasRepository>();
-            services.AddControllers();
+            services.AddControllers().AddXmlDataContractSerializerFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
