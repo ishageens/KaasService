@@ -40,19 +40,23 @@ namespace KaasService.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, Kaas kaas)
         {
-            try
+            if (ModelState.IsValid)
             {
-                repository.Update(kaas);
-                return base.Ok();
+                try
+                {
+                    repository.Update(kaas);
+                    return base.Ok();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return base.NotFound();
+                }
+                catch
+                {
+                    return base.Problem();
+                }
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                return base.NotFound();
-            }
-            catch
-            {
-                return base.Problem();
-            }
+            return base.BadRequest(this.ModelState);
         }
     }
 }
