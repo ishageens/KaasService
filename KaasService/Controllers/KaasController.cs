@@ -3,6 +3,7 @@ using KaasService.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,11 @@ namespace KaasService.Controllers
             this.repository = repository;
         }
 
+        [SwaggerOperation("Alle kazen")]
         [HttpGet]
         public async Task<ActionResult> FindAll() => base.Ok(await repository.FindAllAsync());
 
+        [SwaggerOperation("Kaas waarvan je de id kent")]
         [HttpGet("{id}")]
         public async Task<ActionResult> FindById(int id)
         {
@@ -34,9 +37,11 @@ namespace KaasService.Controllers
             return base.Ok(kaas);
         }
 
+        [SwaggerOperation("Kazen waarvan je de smaak kent")]
         [HttpGet("smaken")]
         public async Task<ActionResult> FindBySmaak(string smaak) => base.Ok(await repository.FindBySmaakAsync(smaak));
 
+        [SwaggerOperation("Brouwer wijzigen")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, Kaas kaas)
         {
