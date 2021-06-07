@@ -17,26 +17,16 @@ namespace KaasService.Repositories
             this.context = context;
         }
 
-        public IQueryable<Kaas> FindAll()
-        {
-            return context.Kazen.AsNoTracking().AsQueryable();
-        }
+        public async Task<List<Kaas>> FindAllAsync() => await context.Kazen.AsNoTracking().ToListAsync();
 
-        public Kaas FindById(int id)
-        {
-            return context.Kazen.Find(id);
-        }
+        public async Task<Kaas> FindByIdAsync(int id) => await context.Kazen.FindAsync(id);
 
-        public IQueryable<Kaas> FindBySmaak(string smaak)
-        {
-            return context.Kazen.AsNoTracking()
-            .Where(kaas => kaas.Smaak == smaak);
-        }
-
-        public void Update(Kaas kaas)
+        public async Task UpdateAsync(Kaas kaas)
         {
             context.Kazen.Update(kaas);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
+
+        public async Task<List<Kaas>> FindBySmaakAsync(string begin) => await context.Kazen.AsNoTracking().Where(kaas => kaas.Naam.StartsWith(begin)).ToListAsync();
     }
 }
